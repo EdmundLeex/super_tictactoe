@@ -1,0 +1,84 @@
+.grid {
+  width: 450px;
+  margin: 0 auto;
+}
+
+.group:after {
+  clear:both;
+  content:"";
+  display:block;
+}
+
+.group {
+  margin: 0 auto;
+  display:block;
+  text-align:center;
+  width:100%;
+  font-size:60px;
+  font-family:impact;
+}
+
+.square {
+  float:left;
+  width: 140px;
+  height: 150px;
+  background-color:gray;
+  display:block;
+  border-left: thick solid #000;
+  border-top: thick solid #000;
+  position:relative;
+  text-align: center;
+}
+
+.square:nth-child(3n + 3) {
+  border-right: thick solid #000;
+}
+
+.square:nth-child(7) {
+  border-bottom: thick solid #000;
+}
+.square:nth-child(8) {
+  border-bottom: thick solid #000;
+}
+.square:nth-child(9) {
+  border-bottom: thick solid #000;
+}
+
+.hoverable-square:hover {
+  background-color: lightgray;
+}
+
+.clicked {
+  background-color:white;
+}
+
+.clicked:hover {
+  background-color:white;
+}
+
+.winner:hover {
+  background-color:green;
+}
+
+.winner {
+  background-color:green;
+}
+
+.mark {
+  vertical-align: middle;
+  text-align:center;
+  margin: 0 auto;
+  width: 100%;
+  display:block;
+  position:absolute;
+  top: 20%;
+}
+
+.x {
+  color:red;
+}
+
+
+.o {
+  color:black;
+}
