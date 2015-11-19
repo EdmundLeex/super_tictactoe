@@ -13,8 +13,6 @@
     $('.square').on('click', function (e) {
       that.makeMove($(e.target));
     });
-
-
   };
 
   View.prototype.makeMove = function ($square) {
