@@ -40,13 +40,25 @@
   };
 
   View.prototype.setupBoard = function () {
-    var $elem = $('<ul class = "grid"></ul>');
+    var $elem = $('<ul class="grid"></ul>');
 
     this.$el.append($elem);
     var toInsert = "";
     for (var i = 0; i < 9; i++) {
-      toInsert = toInsert + "<li class='square hoverable-square' id=" + i + "></li>";
+      toInsert = toInsert + "<li class='square hoverable-square' id=" + i + ">" + this.setupMiniBoard(i) + "</li>";
     }
     $elem.html(toInsert);
   };
+
+  View.prototype.setupMiniBoard = function (id) {
+    var toInsert = "";
+    for (var i = 0; i < 9; i++) {
+      toInsert = toInsert + "<li class='mini-square hoverable-square' id=mini-" + id + "-" + i + "></li>";
+    }
+
+    return '<ul class="mini-grid">' + toInsert + '</ul>';
+
+    // this.$square.append($elem);
+    // $square.html(toInsert);
+  }
 })();
