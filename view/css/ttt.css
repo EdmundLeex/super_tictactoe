@@ -3,6 +3,13 @@
   margin: 0 auto;
 }
 
+.mini-grid {
+  width: 140px;
+  height: 140px;
+  margin: 0 auto;
+  padding: 0;
+}
+
 .group:after {
   clear:both;
   content:"";
@@ -19,13 +26,27 @@
 }
 
 .square {
+  box-sizing: border-box;
   float:left;
-  width: 140px;
+  width: 150px;
   height: 150px;
   background-color:gray;
   display:block;
   border-left: thick solid #000;
   border-top: thick solid #000;
+  position:relative;
+  text-align: center;
+}
+
+.mini-square {
+  box-sizing: border-box;
+  float:left;
+  width: 45px;
+  height: 45px;
+  background-color:gray;
+  display:block;
+  border-left: thin solid #000;
+  border-top: thin solid #000;
   position:relative;
   text-align: center;
 }
