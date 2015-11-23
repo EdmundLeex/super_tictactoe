@@ -10,7 +10,7 @@
 
   View.prototype.bindEvents = function () {
     var that = this;
-    $('.square').on('click', function (e) {
+    $('.mini-square').on('click', function (e) {
       that.makeMove($(e.target));
     });
   };
@@ -19,10 +19,14 @@
     if (this.game.isOver()) {
       return;
     }
-    var id = $square.attr("id");
+    var idArr = $square.attr("id").split('-');
+    var gridIdx = idArr[1];
+    var id = idArr[2];
+    var gridPos = [Math.floor(gridIdx/3), (gridIdx%3)]
     var pos = [Math.floor(id/3), (id%3)];
     var mark = this.game.currentPlayer;
-    this.game.playMove(pos);
+
+    this.game.playMove(gridPos, pos);
     $square.html("<span class='mark " + mark + "'>" + mark + "</span>");
     $square.addClass("clicked");
     $square.removeClass("hoverable-square");
