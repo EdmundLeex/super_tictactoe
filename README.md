@@ -9,7 +9,7 @@ Super Tic Tac Toe
 
 ## Todos
 - [x] Basic game logic
-- [ ] Super Tic Tac Toe constraint logic enforcement
+- [x] Super Tic Tac Toe constraint logic enforcement
 - [ ] Real time multi-player using websocket
 - [ ] Delayed multi-player mode
 - [ ] Player profile, ranking

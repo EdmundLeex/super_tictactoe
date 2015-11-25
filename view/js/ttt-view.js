@@ -20,26 +20,29 @@
       return;
     }
     var idArr = $square.attr("id").split('-');
-    var gridIdx = idArr[1];
+    var gridId = idArr[1];
     var id = idArr[2];
-    var gridPos = [Math.floor(gridIdx/3), (gridIdx%3)]
+    var gridPos = [Math.floor(gridId/3), (gridId%3)];
     var pos = [Math.floor(id/3), (id%3)];
     var mark = this.game.currentPlayer;
 
-    this.game.playMove(gridPos, pos);
-    $square.html("<span class='mark " + mark + "'>" + mark + "</span>");
-    $square.addClass("clicked");
-    $square.removeClass("hoverable-square");
-    if (this.game.isOver()) {
-      if (this.game.winner()) {
-        // debugger
-        $('.' + mark).parent().addClass("winner");
-        $(".message").html("Congratulations, " + mark.toUpperCase() + " wins!");
-      } else {
-        $(".message").html("Are you stupid? No one wins.");
-      }
+    if (this.game.playMove(gridPos, pos)) {
+      $square.html("<span class='mark " + mark + "'>" + mark + "</span>");
+      $square.addClass("clicked");
+      $square.removeClass("hoverable-square");
+      if (this.game.isOver()) {
+        if (this.game.winner()) {
+          // debugger
+          $('.' + mark).parent().addClass("winner");
+          $(".message").html("Congratulations, " + mark.toUpperCase() + " wins!");
+        } else {
+          $(".message").html("Are you stupid? No one wins.");
+        }
 
-      $(".square").removeClass("hoverable-square");
+        $(".square").removeClass("hoverable-square");
+      }
+    } else {
+      alert("Invalid move");
     }
   };
 
@@ -64,5 +67,5 @@
 
     // this.$square.append($elem);
     // $square.html(toInsert);
-  }
+  };
 })();
