@@ -29,7 +29,7 @@
     if (this.game.playMove(gridPos, pos)) {
       $square.html("<span class='mark " + mark + "'>" + mark + "</span>");
       $square.addClass("clicked");
-      $square.removeClass("hoverable-square");
+      $square.removeClass("hoverable");
       if (this.game.isOver()) {
         if (this.game.winner()) {
           // debugger
@@ -39,7 +39,7 @@
           $(".message").html("Are you stupid? No one wins.");
         }
 
-        $(".square").removeClass("hoverable-square");
+        $(".square").removeClass("hoverable");
       }
     } else {
       alert("Invalid move");
@@ -52,7 +52,7 @@
     this.$el.append($elem);
     var toInsert = "";
     for (var i = 0; i < 9; i++) {
-      toInsert = toInsert + "<li class='square hoverable-square' id=" + i + ">" + this.setupMiniBoard(i) + "</li>";
+      toInsert = toInsert + "<li class='square grid-border hoverable' id=" + i + ">" + this.setupMiniBoard(i) + "</li>";
     }
     $elem.html(toInsert);
   };
@@ -60,7 +60,7 @@
   View.prototype.setupMiniBoard = function (id) {
     var toInsert = "";
     for (var i = 0; i < 9; i++) {
-      toInsert = toInsert + "<li class='mini-square hoverable-square' id=mini-" + id + "-" + i + "></li>";
+      toInsert = toInsert + "<li class='mini-square grid-border hoverable' id=mini-" + id + "-" + i + "></li>";
     }
 
     return '<ul class="mini-grid">' + toInsert + '</ul>';

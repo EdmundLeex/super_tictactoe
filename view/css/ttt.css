@@ -1,11 +1,14 @@
 .grid {
   width: 450px;
+  height: 450px;
+  padding: 0;
+  border: 5px solid #000;
   margin: 0 auto;
 }
 
 .mini-grid {
-  width: 140px;
-  height: 140px;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
   padding: 0;
 }
@@ -32,8 +35,9 @@
   height: 150px;
   background-color:gray;
   display:block;
-  border-left: thick solid #000;
-  border-top: thick solid #000;
+  border: thick;
+  border-left: solid #000;
+  border-top: solid #000;
   position:relative;
   text-align: center;
 }
@@ -41,31 +45,32 @@
 .mini-square {
   box-sizing: border-box;
   float:left;
-  width: 45px;
-  height: 45px;
+  width: calc(100% * 1 / 3);
+  height: calc(100% * 1 / 3);
   background-color:gray;
   display:block;
-  border-left: thin solid #000;
-  border-top: thin solid #000;
+  border: thin;
+  border-left: solid #000;
+  border-top: solid #000;
   position:relative;
   text-align: center;
 }
 
-.square:nth-child(3n + 3) {
-  border-right: thick solid #000;
+.grid-border:nth-child(3n + 3) {
+  border-right: solid #000;
 }
 
-.square:nth-child(7) {
-  border-bottom: thick solid #000;
+.grid-border:nth-child(7) {
+  border-bottom: solid #000;
 }
-.square:nth-child(8) {
-  border-bottom: thick solid #000;
+.grid-border:nth-child(8) {
+  border-bottom: solid #000;
 }
-.square:nth-child(9) {
-  border-bottom: thick solid #000;
+.grid-border:nth-child(9) {
+  border-bottom: solid #000;
 }
 
-.hoverable-square:hover {
+.hoverable:hover {
   background-color: lightgray;
 }
 
