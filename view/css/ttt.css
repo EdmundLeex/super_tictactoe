@@ -1,4 +1,4 @@
-.grid {
+.board {
   width: 450px;
   height: 450px;
   padding: 0;
@@ -29,44 +29,36 @@
 }
 
 .square {
-  box-sizing: border-box;
-  float:left;
-  width: 150px;
-  height: 150px;
-  background-color:gray;
-  display:block;
   border: thick;
-  border-left: solid #000;
-  border-top: solid #000;
-  position:relative;
-  text-align: center;
 }
 
 .mini-square {
+  border: thin;
+}
+
+.grid {
   box-sizing: border-box;
   float:left;
   width: calc(100% * 1 / 3);
   height: calc(100% * 1 / 3);
   background-color:gray;
-  display:block;
-  border: thin;
+  display: block;
   border-left: solid #000;
   border-top: solid #000;
   position:relative;
   text-align: center;
 }
 
-.grid-border:nth-child(3n + 3) {
+.grid:nth-child(3n + 3) {
   border-right: solid #000;
 }
-
-.grid-border:nth-child(7) {
+.grid:nth-child(7) {
   border-bottom: solid #000;
 }
-.grid-border:nth-child(8) {
+.grid:nth-child(8) {
   border-bottom: solid #000;
 }
-.grid-border:nth-child(9) {
+.grid:nth-child(9) {
   border-bottom: solid #000;
 }
 
@@ -103,7 +95,6 @@
 .x {
   color:red;
 }
-
 
 .o {
   color:black;

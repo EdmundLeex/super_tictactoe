@@ -47,12 +47,12 @@
   };
 
   View.prototype.setupBoard = function () {
-    var $elem = $('<ul class="grid"></ul>');
+    var $elem = $('<ul class="board"></ul>');
 
     this.$el.append($elem);
     var toInsert = "";
     for (var i = 0; i < 9; i++) {
-      toInsert = toInsert + "<li class='square grid-border hoverable' id=" + i + ">" + this.setupMiniBoard(i) + "</li>";
+      toInsert = toInsert + "<li class='square grid hoverable' id=" + i + ">" + this.setupMiniBoard(i) + "</li>";
     }
     $elem.html(toInsert);
   };
@@ -60,7 +60,7 @@
   View.prototype.setupMiniBoard = function (id) {
     var toInsert = "";
     for (var i = 0; i < 9; i++) {
-      toInsert = toInsert + "<li class='mini-square grid-border hoverable' id=mini-" + id + "-" + i + "></li>";
+      toInsert = toInsert + "<li class='mini-square grid hoverable' id=mini-" + id + "-" + i + "></li>";
     }
 
     return '<ul class="mini-grid">' + toInsert + '</ul>';
