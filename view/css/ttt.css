@@ -85,7 +85,7 @@ div, ul, li {
   top: 0; right: 0;
 }
 
-.playable:hover:after{
+.playable:after{
   border-bottom: 2px solid black;
   border-left: 2px solid black;
   border-right: 2px solid transparent;
@@ -97,12 +97,12 @@ div, ul, li {
   bottom: 0; left: 0;
 }
 
-.playable:hover:before{
+.playable:before{
   border-top: 2px solid black;
   border-right: 2px solid black;
   border-left: 2px solid transparent;
   border-bottom: 2px solid transparent;
-  bottom: -4px;
+  bottom: -5px;
 }
 
 .hoverable:hover {
