@@ -13,4 +13,4 @@ Super Tic Tac Toe
 - [ ] Real time multi-player using websocket
 - [ ] Delayed multi-player mode
 - [ ] Player profile, ranking
-- [ ] Styling~~
+- [x] Styling~~
