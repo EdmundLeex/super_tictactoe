@@ -5,7 +5,7 @@ Super Tic Tac Toe
 ## Game Play
 ![img]
 
-[img]: https://mathwithbaddrawings.files.wordpress.com/2013/06/19-late-game.jpg
+[img]: ./docs/img.png
 
 ## Todos
 - [x] Basic game logic
