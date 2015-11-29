@@ -1,4 +1,8 @@
-.board {
+div, ul, li {
+  background-color: inherit;
+}
+
+#board {
   width: 450px;
   height: 450px;
   padding: 0;
@@ -29,11 +33,12 @@
 }
 
 .square {
-  border: thick;
+  border: thick #000;
+  background-color: #4c4c4c;
 }
 
 .mini-square {
-  border: thin;
+  border: thin #000;
 }
 
 .grid {
@@ -41,10 +46,9 @@
   float: left;
   width: calc(100% * 1 / 3);
   height: calc(100% * 1 / 3);
-  background-color: gray;
   display: block;
-  border-left: solid #000;
-  border-top: solid #000;
+  border-left: solid;
+  border-top: solid;
   position: relative;
   text-align: center;
   box-shadow: 0px 0px 0px 0px rgb(0,0,0);
@@ -52,19 +56,20 @@
 }
 
 .grid:nth-child(3n + 3) {
-  border-right: solid #000;
+  border-right: solid;
 }
 .grid:nth-child(7) {
-  border-bottom: solid #000;
+  border-bottom: solid;
 }
 .grid:nth-child(8) {
-  border-bottom: solid #000;
+  border-bottom: solid;
 }
 .grid:nth-child(9) {
-  border-bottom: solid #000;
+  border-bottom: solid;
 }
 
-.playable:hover {
+.playable {
+  background-color: #999999;
   transform: translateX(-4px) translateY(-4px);
   transition: all 100ms ease-in;
   box-shadow: 4px 4px 0px 0px rgba(0,0,0,0.8);
@@ -131,9 +136,18 @@
 }
 
 .x {
-  color: red;
+  color: #cc0000;
 }
 
 .o {
-  color: black;
+  color: #00cc00;
+}
+
+.won-grid-o {
+  background-color: rgba(0, 204, 0, 0.2) !important;
+}
+
+
+.won-grid-x {
+  background-color: rgba(204, 0, 0, 0.2) !important;
 }
