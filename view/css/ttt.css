@@ -90,7 +90,7 @@ div, ul, li {
   border-left: 2px solid black;
   border-right: 2px solid transparent;
   border-top: 2px solid transparent;
-  right: -5px;
+  right: -4px;
 }
 
 .playable:before{
@@ -102,7 +102,7 @@ div, ul, li {
   border-right: 2px solid black;
   border-left: 2px solid transparent;
   border-bottom: 2px solid transparent;
-  bottom: -5px;
+  bottom: -4px;
 }
 
 .hoverable:hover {

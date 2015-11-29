@@ -26,6 +26,7 @@
     var pos = [Math.floor(id / 3), (id % 3)];
 
     if (this.game.playMove(gridPos, pos)) {
+      $('#next-move').html(this.game.nextPlayer);
       this.clearMessage();
       this.updateView($square);
     } else {
@@ -74,11 +75,11 @@
   };
 
   View.prototype.showMessage = function (msg) {
-    $(".message").html(msg);
+    $("#message").html(msg);
   };
 
   View.prototype.clearMessage = function () {
-    $(".message").html("");
+    $("#message").html("");
   };
 
   View.prototype.setupBoard = function () {
@@ -90,6 +91,8 @@
       toInsert = toInsert + "<li class='square grid' id=" + i + ">" + this.setupMiniBoard(i) + "</li>";
     }
     $elem.html(toInsert);
+
+    $('#next-move').html(this.game.nextPlayer);
   };
 
   View.prototype.setupMiniBoard = function (id) {
@@ -99,8 +102,5 @@
     }
 
     return '<ul class="mini-grid">' + toInsert + '</ul>';
-
-    // this.$square.append($elem);
-    // $square.html(toInsert);
   };
 })();
