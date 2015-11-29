@@ -63,8 +63,7 @@
 
     if (this.game.isOver()) {
       if (this.game.winner()) {
-        // debugger
-        $('.' + mark).parent().addClass("winner");
+        $('.playable').removeClass('playable');
         this.showMessage("Congratulations, " + mark.toUpperCase() + " wins!")
       } else {
         this.showMessage("Are you stupid? No one wins.");
