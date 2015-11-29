@@ -47,6 +47,8 @@
   border-top: solid #000;
   position: relative;
   text-align: center;
+  box-shadow: 0px 0px 0px 0px rgb(0,0,0);
+  transition: all 100ms ease-in;
 }
 
 .grid:nth-child(3n + 3) {
@@ -60,6 +62,42 @@
 }
 .grid:nth-child(9) {
   border-bottom: solid #000;
+}
+
+.playable:hover {
+  transform: translateX(-4px) translateY(-4px);
+  transition: all 100ms ease-in;
+  box-shadow: 4px 4px 0px 0px rgba(0,0,0,0.8);
+  border: thin solid black;
+}
+
+.playable:before, .playable:after{
+  content:'';
+  position:absolute;
+}
+
+.playable:after{
+  top: 0; right: 0;
+}
+
+.playable:hover:after{
+  border-bottom: 2px solid black;
+  border-left: 2px solid black;
+  border-right: 2px solid transparent;
+  border-top: 2px solid transparent;
+  right: -5px;
+}
+
+.playable:before{
+  bottom: 0; left: 0;
+}
+
+.playable:hover:before{
+  border-top: 2px solid black;
+  border-right: 2px solid black;
+  border-left: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  bottom: -4px;
 }
 
 .hoverable:hover {
