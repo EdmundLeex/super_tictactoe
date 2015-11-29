@@ -24,26 +24,39 @@
     var id = idArr[2];
     var gridPos = [Math.floor(gridId/3), (gridId%3)];
     var pos = [Math.floor(id/3), (id%3)];
-    var mark = this.game.currentPlayer;
 
     if (this.game.playMove(gridPos, pos)) {
-      $square.html("<span class='mark " + mark + "'>" + mark + "</span>");
-      $square.addClass("clicked");
-      $square.removeClass("hoverable");
-      if (this.game.isOver()) {
-        if (this.game.winner()) {
-          // debugger
-          $('.' + mark).parent().addClass("winner");
-          $(".message").html("Congratulations, " + mark.toUpperCase() + " wins!");
-        } else {
-          $(".message").html("Are you stupid? No one wins.");
-        }
-
-        $(".square").removeClass("hoverable");
-      }
+      this.clearMessage();
+      this.updateView($square);
     } else {
-      alert("Invalid move");
+      this.showMessage("Invalid move");
     }
+  };
+
+  View.prototype.updateView = function ($square) {
+    var mark = this.game.currentPlayer;
+    $square.html("<span class='mark " + mark + "'>" + mark + "</span>");
+    $square.addClass("clicked");
+    $square.removeClass("hoverable");
+    if (this.game.isOver()) {
+      if (this.game.winner()) {
+        // debugger
+        $('.' + mark).parent().addClass("winner");
+        this.showMessage("Congratulations, " + mark.toUpperCase() + " wins!")
+      } else {
+        this.showMessage("Are you stupid? No one wins.");
+      }
+
+      $(".square").removeClass("hoverable");
+    }
+  };
+
+  View.prototype.showMessage = function (msg) {
+    $(".message").html(msg);
+  };
+
+  View.prototype.clearMessage = function () {
+    $(".message").html("");
   };
 
   View.prototype.setupBoard = function () {
