@@ -143,11 +143,11 @@ div, ul, li {
   color: #00cc00;
 }
 
-.won-grid-o {
+.won-grid-o, .won-grid-o .clicked {
   background-color: rgba(0, 204, 0, 0.2) !important;
 }
 
 
-.won-grid-x {
+.won-grid-x, .won-grid-x .clicked {
   background-color: rgba(204, 0, 0, 0.2) !important;
 }
