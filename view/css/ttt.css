@@ -28,8 +28,12 @@ div, ul, li {
   display: block;
   text-align: center;
   width: 100%;
-  font-size: 20px;
+  font-size: 30px;
   font-family: impact;
+}
+
+h1 {
+  font-size: 40px !important;
 }
 
 .square {
