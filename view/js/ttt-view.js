@@ -46,19 +46,14 @@
       var miniBoard = game.board.grid[gridPos[0]][gridPos[1]];
       if (miniBoard.isOver()) {
         var id = gridPos[0] * 3 + gridPos[1] * 3 - (gridPos[1] * 3 - gridPos[1]);
-        $('#' + id.toString()).addClass('won-grid-' + miniBoard.winner());
+        var wonGrid = $('#' + id.toString());
+        wonGrid.addClass('won-grid-' + miniBoard.loser());
       }
 
       if (game.board.validGrids.indexOf(gridPos[0] + ',' + gridPos[1]) === -1) {
-        miniSquare.each(function () {
-          this.classList.remove('playable');
-          this.classList.remove('hoverable');
-        })
+        miniSquare.removeClass('playable').removeClass('hoverable');
       } else {
-        miniSquare.each(function () {
-          this.classList.add('playable');
-          this.classList.add('hoverable');
-        })
+        miniSquare.addClass('playable').addClass('hoverable');
       }
     })
 
