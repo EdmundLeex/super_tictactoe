@@ -110,6 +110,10 @@ h1 {
   bottom: -4px;
 }
 
+.playable:hover {
+  cursor: pointer;
+}
+
 .hoverable:hover {
   background-color: lightgray;
 }
