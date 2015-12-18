@@ -3,9 +3,12 @@ Bored by the no winner tic tac toe. This is inspired by the upgrade version--
 Super Tic Tac Toe
 
 ## Game Play
+[Click here to play][play]
+
 ![img]
 
 [img]: ./docs/img.png
+[play]: http://edmundleex.github.io/super_tictactoe/
 
 ## Todos
 - [x] Basic game logic
