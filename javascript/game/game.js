@@ -1,8 +1,8 @@
-var Board = require("./board");
+var LargeBoard = require("./large_board");
 var MoveError = require("./moveError");
 
 function Game () {
-  this.board = new Board();
+  this.board = new LargeBoard();
   this.currentPlayer = Game.marks[0];
   this.nextPlayer = Game.marks[1];
 }

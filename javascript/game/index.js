@@ -1,5 +1,5 @@
 module.exports = {
-  Board: require("./board"),
+  LargeBoard: require("./large_board"),
   Game: require("./game"),
   MoveError: require("./moveError")
 };
