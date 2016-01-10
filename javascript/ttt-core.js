@@ -143,33 +143,6 @@ Game.prototype.playMove = function (gridPos, pos) {
   }
 };
 
-Game.prototype.run = function (reader, gameCompletionCallback) {
-  this.promptMove(reader, (function (move) {
-    try {
-      this.playMove(move);
-    } catch (e) {
-      if (e instanceof MoveError) {
-        console.log(e.msg);
-      } else {
-        throw e;
-      }
-    }
-
-    if (this.isOver()) {
-      this.board.print();
-      if (this.winner()) {
-        console.log(this.winner() + " has won!");
-      } else {
-        console.log("NO ONE WINS!");
-      }
-      gameCompletionCallback();
-    } else {
-      // continue loop
-      this.run(reader, gameCompletionCallback);
-    }
-  }).bind(this));
-};
-
 Game.prototype.swapTurn = function () {
   if (this.currentPlayer === Game.marks[0]) {
     this.currentPlayer = Game.marks[1];
@@ -254,22 +227,6 @@ MiniBoard.prototype.placeMark = function (pos, mark) {
   }
 
   this.grid[pos[0]][pos[1]] = mark;
-};
-
-MiniBoard.prototype.print = function () {
-  var strs = [];
-  for (var rowIdx = 0; rowIdx < 3; rowIdx++) {
-    var marks = [];
-    for (var colIdx = 0; colIdx < 3; colIdx++) {
-      marks.push(
-        this.grid[rowIdx][colIdx] ? this.grid[rowIdx][colIdx] : " "
-      );
-    }
-
-    strs.push(marks.join("|") + "\n");
-  }
-
-  console.log(strs.join("-----\n"));
 };
 
 MiniBoard.prototype.winner = function () {

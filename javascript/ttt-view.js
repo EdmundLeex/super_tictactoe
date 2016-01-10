@@ -56,16 +56,16 @@
       } else {
         miniSquare.addClass('playable').addClass('hoverable');
       }
-    })
+    });
 
     $('.clicked').each(function () {
       this.classList.remove('playable');
-    })
+    });
 
     if (this.game.isOver()) {
       if (this.game.winner()) {
         $('.playable').removeClass('playable');
-        this.showMessage("Congratulations, " + mark.toUpperCase() + " wins!")
+        this.showMessage("Congratulations, " + mark.toUpperCase() + " wins!");
       } else {
         this.showMessage("Are you stupid? No one wins.");
       }

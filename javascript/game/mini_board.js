@@ -60,22 +60,6 @@ MiniBoard.prototype.placeMark = function (pos, mark) {
   this.grid[pos[0]][pos[1]] = mark;
 };
 
-MiniBoard.prototype.print = function () {
-  var strs = [];
-  for (var rowIdx = 0; rowIdx < 3; rowIdx++) {
-    var marks = [];
-    for (var colIdx = 0; colIdx < 3; colIdx++) {
-      marks.push(
-        this.grid[rowIdx][colIdx] ? this.grid[rowIdx][colIdx] : " "
-      );
-    }
-
-    strs.push(marks.join("|") + "\n");
-  }
-
-  console.log(strs.join("-----\n"));
-};
-
 MiniBoard.prototype.winner = function () {
   var posSeqs = [
     // horizontals
