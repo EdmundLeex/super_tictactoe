@@ -67,7 +67,7 @@
         $('.playable').removeClass('playable');
         this.showMessage("Congratulations, " + mark.toUpperCase() + " wins!");
       } else {
-        this.showMessage("Are you stupid? No one wins.");
+        this.showMessage("Oops... Tied?!");
       }
 
       $(".square").removeClass("hoverable");

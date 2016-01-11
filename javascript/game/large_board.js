@@ -12,7 +12,7 @@ LargeBoard.marks = ["x", "o"];
 LargeBoard.allGrids = ['0,0', '0,1', '0,2', '1,0', '1,1', '1,2', '2,0', '2,1', '2,2'];
 
 LargeBoard.prototype.isEmptyPos = function (pos) {
-  return (!this.grid[pos[0]][pos[1]].winner());
+  return (!this.grid[pos[0]][pos[1]].winner() && !this.grid[pos[0]][pos[1]].isFull());
 };
 
 LargeBoard.prototype.placeMark = function (gridPos, pos, mark) {
