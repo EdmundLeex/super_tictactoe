@@ -14,7 +14,7 @@
 
   View.prototype.bindEvents = function () {
     var that = this;
-    $('.mini-square').on('click', function (e) {
+    $('#board').on('click', function (e) {
       makeMove($(e.target), that.game);
     });
   };
