@@ -17,7 +17,16 @@
     $('#board').on('click', function (e) {
       makeMove($(e.target), that.game);
     });
+    $('#restart').on('click', function (e) {
+      e.preventDefault();
+      reset(that.game);
+    });
   };
+
+  function reset(game) {
+    game.reset();
+    resetView();
+  }
 
   function makeMove($square, game) {
     if (game.isOver()) return;
@@ -112,5 +121,14 @@
     }
 
     return '<ul class="mini-grid">' + toInsert + '</ul>';
+  }
+
+  function resetView() {
+    $('.mini-square')
+      .removeClass('clicked')
+      .addClass('hoverable')
+      .addClass('playable')
+      .children()
+      .empty();
   }
 })();

@@ -27,6 +27,7 @@ div, ul, li {
   margin: 0 auto;
   display: block;
   text-align: center;
+  min-height: 40px;
   width: 100%;
   font-size: 30px;
   font-family: impact;
@@ -159,4 +160,23 @@ h1 {
 
 .won-grid-x, .won-grid-x .clicked {
   background-color: rgba(204, 0, 0, 0.2) !important;
+}
+
+button {
+  outline: none;
+  font-size: 20px;
+  padding: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #FAFAFA;
+  border: thick solid black;
+}
+
+button:hover {
+  background-color: lightgray;
+}
+
+button:active {
+  color: #FAFAFA;
+  background-color: black;
 }

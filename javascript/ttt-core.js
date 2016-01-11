@@ -111,6 +111,12 @@ Game.prototype.winner = function () {
   return this.board.winner();
 };
 
+Game.prototype.reset = function () {
+  this.board = new LargeBoard();
+  this.currentPlayer = Game.marks[0];
+  this.nextPlayer = Game.marks[1];
+}
+
 module.exports = Game;
 
 },{"./large_board":4,"./moveError":6}],3:[function(require,module,exports){
