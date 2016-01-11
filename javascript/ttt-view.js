@@ -20,9 +20,8 @@
   };
 
   function makeMove($square, game) {
-    if (game.isOver()) {
-      return;
-    }
+    if (game.isOver()) return;
+
     var idArr = $square.attr("id").split('-');
     var gridId = idArr[1];
     var id = idArr[2];
