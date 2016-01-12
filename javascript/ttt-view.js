@@ -15,7 +15,8 @@
   View.prototype.bindEvents = function () {
     var that = this;
     $('#board').on('click', function (e) {
-      makeMove($(e.target), that.game);
+      var elId = e.target.id;
+      makeMove(elId, that.game);
     });
     $('#restart').on('click', function (e) {
       e.preventDefault();
@@ -28,26 +29,26 @@
     resetView();
   }
 
-  function makeMove($square, game) {
+  function makeMove(squareId, game) {
     if (game.isOver()) return;
 
-    var idArr = $square.attr("id").split('-');
+    var idArr = squareId.split('-');
     var gridId = idArr[1];
     var id = idArr[2];
     var gridPos = [Math.floor(gridId / 3), (gridId % 3)];
     var pos = [Math.floor(id / 3), (id % 3)];
 
-    if (game.currentPlayer.makeMove(gridPos, pos)) {
+    if (game.currentPlayer.makeMove(gridPos, pos, updateView)) {
       $('#next-move').html(game.nextPlayer.mark);
       clearMessage();
-      updateView($square, game);
+      // updateView($square, game);
     } else {
       showMessage("Invalid move");
     }
-    game.swapTurn();
   }
 
-  function updateView($square, game) {
+  function updateView(squareId, game) {
+    var $square = $('#' + squareId);
     var mark = game.currentPlayer.mark;
 
     $square.html("<span class='mark " + mark + "'>" + mark + "</span>");

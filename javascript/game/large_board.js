@@ -3,13 +3,13 @@ var MiniBoard = require("./mini_board");
 
 function LargeBoard (marks) {
   this.grid = Board.makeGrid(MiniBoard.bind(null, marks));
-  this.validGrids = LargeBoard.allGrids;
+  this.validGrids = Board.allGrids;
   this.marks = marks;
 }
 
 LargeBoard.prototype = Object.create(Board.prototype);
 
-LargeBoard.allGrids = ['0,0', '0,1', '0,2', '1,0', '1,1', '1,2', '2,0', '2,1', '2,2'];
+Board.allGrids = ['0,0', '0,1', '0,2', '1,0', '1,1', '1,2', '2,0', '2,1', '2,2'];
 
 LargeBoard.prototype.isEmptyPos = function (pos) {
   return (!this.grid[pos[0]][pos[1]].winner() && !this.grid[pos[0]][pos[1]].isFull());
@@ -29,7 +29,7 @@ LargeBoard.prototype.setValidGrid = function (pos) {
   if (!this.grid[pos[0]][pos[1]].isFull()) {
     this.validGrids = [pos.toString()];
   } else {
-    this.validGrids = LargeBoard.allGrids;
+    this.validGrids = Board.allGrids;
   }
 };
 

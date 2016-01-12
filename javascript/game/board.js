@@ -2,6 +2,8 @@ function Board () {
   this.grid = Board.makeGrid();
 }
 
+Board.allGrids = ['0,0', '0,1', '0,2', '1,0', '1,1', '1,2', '2,0', '2,1', '2,2'];
+
 Board.makeGrid = function (Constructor) {
   var grid = [];
 

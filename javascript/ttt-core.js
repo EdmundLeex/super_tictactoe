@@ -3,6 +3,8 @@ function Board () {
   this.grid = Board.makeGrid();
 }
 
+Board.allGrids = ['0,0', '0,1', '0,2', '1,0', '1,1', '1,2', '2,0', '2,1', '2,2'];
+
 Board.makeGrid = function (Constructor) {
   var grid = [];
 
@@ -72,6 +74,30 @@ Board.prototype.winner = function () {
 
 module.exports = Board;
 },{}],2:[function(require,module,exports){
+var Util = require("./util");
+var Player = require("./player");
+
+// Computer Player
+function ComputerPlayer(mark, game) {
+  Player.call(this, mark, game);
+}
+
+ComputerPlayer.prototype = Object.create(Player.prototype);
+
+ComputerPlayer.prototype.play = function (updateView) {
+  var validPosArr = this.game.board.validGrids;
+  var randIdx = Util.randomIdx(validPosArr.length);
+  var gridPos = Util.parsePosFromStr(validPosArr[randIdx]);
+  validPosArr = this.game.board.grid[gridPos[0]][gridPos[1]].validGrids;
+  randIdx = Util.randomIdx(validPosArr.length);
+  var pos = Util.parsePosFromStr(validPosArr[randIdx]);
+
+  setTimeout(this.makeMove.bind(this, gridPos, pos, updateView), 500);
+};
+
+module.exports = ComputerPlayer;
+
+},{"./player":7,"./util":8}],3:[function(require,module,exports){
 var LargeBoard = require("./large_board");
 var Player = require("./player");
 
@@ -120,29 +146,30 @@ Game.prototype.reset = function () {
   this.board = new LargeBoard(Game.marks);
   this.currentPlayer = this.players[0];
   this.nextPlayer = this.players[1];
-}
+};
 
 module.exports = Game;
 
-},{"./large_board":4,"./player":6}],3:[function(require,module,exports){
+},{"./large_board":5,"./player":7}],4:[function(require,module,exports){
 module.exports = {
   Player: require("./player"),
+  ComputerPlayer: require("./computer_player"),
   Game: require("./game")
 };
 
-},{"./game":2,"./player":6}],4:[function(require,module,exports){
+},{"./computer_player":2,"./game":3,"./player":7}],5:[function(require,module,exports){
 var Board = require("./board");
 var MiniBoard = require("./mini_board");
 
 function LargeBoard (marks) {
   this.grid = Board.makeGrid(MiniBoard.bind(null, marks));
-  this.validGrids = LargeBoard.allGrids;
+  this.validGrids = Board.allGrids;
   this.marks = marks;
 }
 
 LargeBoard.prototype = Object.create(Board.prototype);
 
-LargeBoard.allGrids = ['0,0', '0,1', '0,2', '1,0', '1,1', '1,2', '2,0', '2,1', '2,2'];
+Board.allGrids = ['0,0', '0,1', '0,2', '1,0', '1,1', '1,2', '2,0', '2,1', '2,2'];
 
 LargeBoard.prototype.isEmptyPos = function (pos) {
   return (!this.grid[pos[0]][pos[1]].winner() && !this.grid[pos[0]][pos[1]].isFull());
@@ -162,7 +189,7 @@ LargeBoard.prototype.setValidGrid = function (pos) {
   if (!this.grid[pos[0]][pos[1]].isFull()) {
     this.validGrids = [pos.toString()];
   } else {
-    this.validGrids = LargeBoard.allGrids;
+    this.validGrids = Board.allGrids;
   }
 };
 
@@ -188,11 +215,12 @@ LargeBoard.prototype.winnerHelper = function (posSeq) {
 };
 
 module.exports = LargeBoard;
-},{"./board":1,"./mini_board":5}],5:[function(require,module,exports){
+},{"./board":1,"./mini_board":6}],6:[function(require,module,exports){
 var Board = require("./board");
 
 function MiniBoard (marks) {
   this.grid = Board.makeGrid(null);
+  this.validGrids = Board.allGrids;
   this.marks = marks;
 }
 
@@ -203,6 +231,7 @@ MiniBoard.prototype.isEmptyPos = function (pos) {
 };
 
 MiniBoard.prototype.placeMark = function (pos, mark) {
+  if (!this.isEmptyPos(pos)) return false;
   this.grid[pos[0]][pos[1]] = mark;
 };
 
@@ -229,29 +258,46 @@ MiniBoard.prototype.winnerHelper = function (posSeq) {
 
 module.exports = MiniBoard;
 
-},{"./board":1}],6:[function(require,module,exports){
+},{"./board":1}],7:[function(require,module,exports){
+var Util = require("./util");
+
 function Player(mark, game, oponent) {
   this.mark = mark;
   this.game = game;
   this.oponent = oponent;
 }
 
-Player.prototype.makeMove = function (gridPos, pos) {
+Player.prototype.makeMove = function (gridPos, pos, updateView) {
   this.game.playMove(gridPos, pos, this.mark);
+
+  var squareId = Util.posToId(gridPos, pos);
+  updateView(squareId, this.game);
+  this.game.swapTurn();
+  this.oponent.play(updateView);
+
   return true;
-}
+};
 
-// Computer Player
-function ComputerPlayer(mark, game) {
-  Player.call(mark, game);
-}
+Player.prototype.play = function () {};
 
-ComputerPlayer.prototype = Object.create(Player.prototype);
 
-ComputerPlayer.prototype.makeMove = function (arguments) {
-  // body...
-}
 
 module.exports = Player;
-},{}]},{},[3])(3)
+},{"./util":8}],8:[function(require,module,exports){
+var Util = {
+  posToId: function (gridPos, pos) {
+    var gridId = (gridPos[0] * 3 + gridPos[1]).toString();
+    var posId = (pos[0] * 3 + pos[1]).toString();
+    return ["mini", gridId, posId].join("-");
+  },
+  randomIdx: function (ceiling) {
+    return Math.floor(Math.random() * ceiling);
+  },
+  parsePosFromStr: function (posStr) {
+    return posStr.split(",").map(function (n) { return parseInt(n); });
+  }
+}
+
+module.exports = Util;
+},{}]},{},[4])(4)
 });

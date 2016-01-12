@@ -2,6 +2,7 @@ var Board = require("./board");
 
 function MiniBoard (marks) {
   this.grid = Board.makeGrid(null);
+  this.validGrids = Board.allGrids;
   this.marks = marks;
 }
 
@@ -12,6 +13,7 @@ MiniBoard.prototype.isEmptyPos = function (pos) {
 };
 
 MiniBoard.prototype.placeMark = function (pos, mark) {
+  if (!this.isEmptyPos(pos)) return false;
   this.grid[pos[0]][pos[1]] = mark;
 };
 

@@ -12,7 +12,8 @@
     <script>
       $(function () {
         var player1 = new window.TTT.Player('x');
-        var player2 = new window.TTT.Player('o');
+        // var player2 = new window.TTT.Player('o');
+        var player2 = new window.TTT.ComputerPlayer('o');
         player1.oponent = player2;
         player2.oponent = player1;
         var game = new window.TTT.Game([player1, player2]);

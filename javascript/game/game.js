@@ -46,6 +46,6 @@ Game.prototype.reset = function () {
   this.board = new LargeBoard(Game.marks);
   this.currentPlayer = this.players[0];
   this.nextPlayer = this.players[1];
-}
+};
 
 module.exports = Game;
