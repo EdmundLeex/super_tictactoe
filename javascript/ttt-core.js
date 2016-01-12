@@ -94,7 +94,7 @@ ComputerPlayer.prototype.play = function (updateView) {
 
   setTimeout(
     this.makeMove.bind(this, gridPos, pos, updateView),
-    1000
+    600
   );
 };
 
