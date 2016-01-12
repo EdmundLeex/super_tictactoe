@@ -73,10 +73,11 @@ Board.prototype.winner = function () {
 module.exports = Board;
 },{}],2:[function(require,module,exports){
 var LargeBoard = require("./large_board");
-var MoveError = require("./moveError");
+var Player = require("./player");
 
 function Game () {
   this.board = new LargeBoard();
+  this.players = [new Player("x"), new Player("o")];
   this.currentPlayer = Game.marks[0];
   this.nextPlayer = Game.marks[1];
 }
@@ -119,14 +120,12 @@ Game.prototype.reset = function () {
 
 module.exports = Game;
 
-},{"./large_board":4,"./moveError":6}],3:[function(require,module,exports){
+},{"./large_board":4,"./player":6}],3:[function(require,module,exports){
 module.exports = {
-  LargeBoard: require("./large_board"),
-  Game: require("./game"),
-  MoveError: require("./moveError")
+  Game: require("./game")
 };
 
-},{"./game":2,"./large_board":4,"./moveError":6}],4:[function(require,module,exports){
+},{"./game":2}],4:[function(require,module,exports){
 var Board = require("./board");
 var MiniBoard = require("./mini_board");
 
@@ -186,7 +185,6 @@ LargeBoard.prototype.winnerHelper = function (posSeq) {
 module.exports = LargeBoard;
 },{"./board":1,"./mini_board":5}],5:[function(require,module,exports){
 var Board = require("./board");
-var MoveError = require("./moveError");
 
 function MiniBoard () {
   this.grid = Board.makeGrid(null);
@@ -197,18 +195,10 @@ MiniBoard.prototype = Object.create(Board.prototype);
 MiniBoard.marks = ["x", "o"];
 
 MiniBoard.prototype.isEmptyPos = function (pos) {
-  if (!this.isValidPos(pos)) {
-    throw new MoveError("Is not valid position!");
-  }
-
   return (this.grid[pos[0]][pos[1]] === null);
 };
 
 MiniBoard.prototype.placeMark = function (pos, mark) {
-  if (!this.isEmptyPos(pos)) {
-    throw new MoveError("Is not an empty position!");
-  }
-
   this.grid[pos[0]][pos[1]] = mark;
 };
 
@@ -243,12 +233,11 @@ MiniBoard.prototype.winnerHelper = function (posSeq) {
 
 module.exports = MiniBoard;
 
-},{"./board":1,"./moveError":6}],6:[function(require,module,exports){
-function MoveError (msg) {
-  this.msg = msg;
+},{"./board":1}],6:[function(require,module,exports){
+function Player (mark) {
+  this.mark = "";
 }
 
-module.exports = MoveError;
-
+module.exports = Player;
 },{}]},{},[3])(3)
 });
