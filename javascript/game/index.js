@@ -1,5 +1,5 @@
 module.exports = {
-  Board: require("./board"),
-  Game: require("./game"),
-  MoveError: require("./moveError")
+  Player: require("./player"),
+  ComputerPlayer: require("./computer_player"),
+  Game: require("./game")
 };

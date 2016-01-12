@@ -13,7 +13,7 @@
       $(function () {
         var game = new window.TTT.Game();
         var view = new window.TTT.View(game, $(".game"));
-        view.setupBoard();
+        view.initBoard();
         view.bindEvents();
       });
     </script>
@@ -25,5 +25,12 @@
 
     <div class="group" id="message"></div>
 
+    <div class="group" id="reset"><button>START</button></div>
+
+    <div class="group" id="toggle">
+      <span class="inline">VS AI</span>
+      <input class="tgl tgl-flat" id="ai-toggle" type="checkbox">
+      <label class="tgl-btn inline" for="ai-toggle"></label>
+    </div>
   </body>
 </html>

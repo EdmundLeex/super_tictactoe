@@ -1,64 +1,34 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.TTT = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var MiniBoard = require("./mini_board");
-
 function Board () {
   this.grid = Board.makeGrid();
-  this.validGrids = Board.allGrids;
 }
 
-Board.marks = ["x", "o"];
 Board.allGrids = ['0,0', '0,1', '0,2', '1,0', '1,1', '1,2', '2,0', '2,1', '2,2'];
 
-Board.makeGrid = function () {
+Board.makeGrid = function (Constructor) {
   var grid = [];
 
   for (var i = 0; i < 3; i++) {
     grid.push([]);
     for (var j = 0; j < 3; j++) {
-      grid[i].push(new MiniBoard());
+      if (Constructor) {
+        grid[i].push(new Constructor());
+      } else {
+        grid[i].push(null);
+      }
     }
   }
 
   return grid;
 };
 
-Board.prototype.isEmptyPos = function (pos) {
-  // if (!Board.isValidPos(pos)) {
-  //   throw new MoveError("Is not valid position!");
-  // }
-
-  return (this.grid[pos[0]][pos[1]] !== 'x' || this.grid[pos[0]][pos[1]] !== 'o');
-};
-
-Board.isValidPos = function (pos) {
+Board.prototype.isValidPos = function (pos) {
   return (
     (0 <= pos[0]) && (pos[0] < 3) && (0 <= pos[1]) && (pos[1] < 3)
   );
 };
 
-Board.prototype.placeMark = function (gridPos, pos, mark) {
-  if (this.validGrids.indexOf(gridPos.toString()) !== -1) {
-    this.grid[gridPos[0]][gridPos[1]].placeMark(pos, mark);
-    this.setValidGrid(pos);
-    return true;
-  } else {
-    return false;
-  }
-};
-
-Board.prototype.setValidGrid = function (pos) {
-  if (!this.grid[pos[0]][pos[1]].isFull()) {
-    this.validGrids = [pos.toString()];
-  } else {
-    this.validGrids = Board.allGrids;
-  }
-};
-
-Board.prototype.isOver = function () {
-  if (this.winner() !== null) {
-    return true;
-  }
-
+Board.prototype.isFull = function () {
   for (var rowIdx = 0; rowIdx < 3; rowIdx++) {
     for (var colIdx = 0; colIdx < 3; colIdx++) {
       if (this.isEmptyPos([rowIdx, colIdx])) {
@@ -66,8 +36,15 @@ Board.prototype.isOver = function () {
       }
     }
   }
-
   return true;
+};
+
+Board.prototype.isOver = function () {
+  if (this.winner() !== null) {
+    return true;
+  }
+
+  return this.isFull();
 };
 
 Board.prototype.winner = function () {
@@ -95,9 +72,139 @@ Board.prototype.winner = function () {
   return null;
 };
 
-Board.prototype.winnerHelper = function (posSeq) {
-  for (var markIdx = 0; markIdx < Board.marks.length; markIdx++) {
-    var targetMark = Board.marks[markIdx];
+module.exports = Board;
+},{}],2:[function(require,module,exports){
+var Util = require("./util");
+var Player = require("./player");
+
+// Computer Player
+function ComputerPlayer(mark, game) {
+  Player.call(this, mark, game);
+}
+
+ComputerPlayer.prototype = Object.create(Player.prototype);
+
+ComputerPlayer.prototype.play = function (updateView) {
+  var validPosArr = this.game.board.validGrids;
+  var randIdx = Util.randomIdx(validPosArr.length);
+  var gridPos = Util.parsePosFromStr(validPosArr[randIdx]);
+  validPosArr = this.game.board.grid[gridPos[0]][gridPos[1]].validGrids;
+  randIdx = Util.randomIdx(validPosArr.length);
+  var pos = Util.parsePosFromStr(validPosArr[randIdx]);
+
+  setTimeout(
+    this.makeMove.bind(this, gridPos, pos, updateView),
+    600
+  );
+};
+
+module.exports = ComputerPlayer;
+
+},{"./player":7,"./util":8}],3:[function(require,module,exports){
+var LargeBoard = require("./large_board");
+var Player = require("./player");
+
+function Game () {
+  this.board = new LargeBoard(Game.marks);
+  this.players = null;
+}
+
+Game.marks = ["x", "o"];
+
+Game.prototype.isOver = function () {
+  return this.board.isOver();
+};
+
+Game.prototype.playMove = function (gridPos, pos, mark) {
+  var placedMark = this.board.placeMark(gridPos, pos, mark);
+  if (placedMark) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+Game.prototype.swapTurn = function () {
+  var players = this.players;
+  if (this.currentPlayer === players[0]) {
+    this.currentPlayer = players[1];
+    this.nextPlayer = players[0];
+  } else {
+    this.currentPlayer = players[0];
+    this.nextPlayer = players[1];
+  }
+};
+
+Game.prototype.winner = function () {
+  return this.board.winner();
+};
+
+Game.prototype.reset = function () {
+  this.board = new LargeBoard(Game.marks);
+  this.currentPlayer = this.players[0];
+  this.nextPlayer = this.players[1];
+};
+
+Game.prototype.addPlayers = function (players) {
+  this.players = players;
+  this.players.forEach(function(player){
+    player.game = this;
+  }, this);
+  this.currentPlayer = this.players[0];
+  this.nextPlayer = this.players[1];
+}
+
+module.exports = Game;
+
+},{"./large_board":5,"./player":7}],4:[function(require,module,exports){
+module.exports = {
+  Player: require("./player"),
+  ComputerPlayer: require("./computer_player"),
+  Game: require("./game")
+};
+
+},{"./computer_player":2,"./game":3,"./player":7}],5:[function(require,module,exports){
+var Board = require("./board");
+var MiniBoard = require("./mini_board");
+
+function LargeBoard (marks) {
+  this.grid = Board.makeGrid(MiniBoard.bind(null, marks));
+  this.validGrids = Board.allGrids;
+  this.marks = marks;
+}
+
+LargeBoard.prototype = Object.create(Board.prototype);
+
+Board.allGrids = ['0,0', '0,1', '0,2', '1,0', '1,1', '1,2', '2,0', '2,1', '2,2'];
+
+LargeBoard.prototype.isEmptyPos = function (pos) {
+  return (!this.grid[pos[0]][pos[1]].winner() && !this.grid[pos[0]][pos[1]].isFull());
+};
+
+LargeBoard.prototype.placeMark = function (gridPos, pos, mark) {
+  var isValidGrid = this.validGrids.indexOf(gridPos.toString()) !== -1;
+
+  if (isValidGrid) {
+    var isValidPos = this.grid[gridPos[0]][gridPos[1]].placeMark(pos, mark);
+    if (isValidPos) {
+      this.setValidGrid(pos);
+      return true;
+    }
+  }
+  return false;
+};
+
+LargeBoard.prototype.setValidGrid = function (pos) {
+  if (!this.grid[pos[0]][pos[1]].isFull()) {
+    this.validGrids = [pos.toString()];
+  } else {
+    this.validGrids = Board.allGrids;
+  }
+};
+
+LargeBoard.prototype.winnerHelper = function (posSeq) {
+  for (var markIdx = 0; markIdx < this.marks.length; markIdx++) {
+    var targetMark = this.marks[markIdx];
     var winner = true;
     for (var posIdx = 0; posIdx < 3; posIdx++) {
       var pos = posSeq[posIdx];
@@ -116,198 +223,32 @@ Board.prototype.winnerHelper = function (posSeq) {
   return null;
 };
 
-module.exports = Board;
-},{"./mini_board":4}],2:[function(require,module,exports){
+module.exports = LargeBoard;
+},{"./board":1,"./mini_board":6}],6:[function(require,module,exports){
 var Board = require("./board");
-var MoveError = require("./moveError");
 
-function Game () {
-  this.board = new Board();
-  this.currentPlayer = Game.marks[0];
-  this.nextPlayer = Game.marks[1];
+function MiniBoard (marks) {
+  this.grid = Board.makeGrid(null);
+  this.validGrids = Board.allGrids;
+  this.marks = marks;
 }
 
-Game.marks = ["x", "o"];
-
-Game.prototype.isOver = function () {
-  return this.board.isOver();
-};
-
-Game.prototype.playMove = function (gridPos, pos) {
-  var placedMark = this.board.placeMark(gridPos, pos, this.currentPlayer);
-  if (placedMark) {
-    this.swapTurn()
-    return true;
-  } else {
-    return false;
-  }
-};
-
-Game.prototype.run = function (reader, gameCompletionCallback) {
-  this.promptMove(reader, (function (move) {
-    try {
-      this.playMove(move);
-    } catch (e) {
-      if (e instanceof MoveError) {
-        console.log(e.msg);
-      } else {
-        throw e;
-      }
-    }
-
-    if (this.isOver()) {
-      this.board.print();
-      if (this.winner()) {
-        console.log(this.winner() + " has won!");
-      } else {
-        console.log("NO ONE WINS!");
-      }
-      gameCompletionCallback();
-    } else {
-      // continue loop
-      this.run(reader, gameCompletionCallback);
-    }
-  }).bind(this));
-};
-
-Game.prototype.swapTurn = function () {
-  if (this.currentPlayer === Game.marks[0]) {
-    this.currentPlayer = Game.marks[1];
-    this.nextPlayer = Game.marks[0];
-  } else {
-    this.currentPlayer = Game.marks[0];
-    this.nextPlayer = Game.marks[1];
-  }
-};
-
-Game.prototype.winner = function () {
-  return this.board.winner();
-};
-
-module.exports = Game;
-
-},{"./board":1,"./moveError":5}],3:[function(require,module,exports){
-module.exports = {
-  Board: require("./board"),
-  Game: require("./game"),
-  MoveError: require("./moveError")
-};
-
-},{"./board":1,"./game":2,"./moveError":5}],4:[function(require,module,exports){
-var MoveError = require("./moveError");
-
-function MiniBoard () {
-  this.grid = MiniBoard.makeGrid();
-}
-
-MiniBoard.isValidPos = function (pos) {
-  return (
-    (0 <= pos[0]) && (pos[0] < 3) && (0 <= pos[1]) && (pos[1] < 3)
-  );
-};
-
-MiniBoard.makeGrid = function () {
-  var grid = [];
-
-  for (var i = 0; i < 3; i++) {
-    grid.push([]);
-    for (var j = 0; j < 3; j++) {
-      grid[i].push(null);
-    }
-  }
-
-  return grid;
-};
-
-MiniBoard.marks = ["x", "o"];
+MiniBoard.prototype = Object.create(Board.prototype);
 
 MiniBoard.prototype.isEmptyPos = function (pos) {
-  if (!MiniBoard.isValidPos(pos)) {
-    throw new MoveError("Is not valid position!");
-  }
-
   return (this.grid[pos[0]][pos[1]] === null);
 };
 
-MiniBoard.prototype.isOver = function () {
-  if (this.winner() !== null) {
-    return true;
-  }
+MiniBoard.prototype.placeMark = function (pos, mark) {
+  if (!this.isEmptyPos(pos)) return false;
+  this.grid[pos[0]][pos[1]] = mark;
 
-  return this.isFull();
-};
-
-MiniBoard.prototype.isFull = function () {
-  for (var rowIdx = 0; rowIdx < 3; rowIdx++) {
-    for (var colIdx = 0; colIdx < 3; colIdx++) {
-      if (this.isEmptyPos([rowIdx, colIdx])) {
-        return false;
-      }
-    }
-  }
   return true;
 };
 
-MiniBoard.prototype.placeMark = function (pos, mark) {
-  if (!this.isEmptyPos(pos)) {
-    throw new MoveError("Is not an empty position!");
-  }
-
-  this.grid[pos[0]][pos[1]] = mark;
-};
-
-MiniBoard.prototype.print = function () {
-  var strs = [];
-  for (var rowIdx = 0; rowIdx < 3; rowIdx++) {
-    var marks = [];
-    for (var colIdx = 0; colIdx < 3; colIdx++) {
-      marks.push(
-        this.grid[rowIdx][colIdx] ? this.grid[rowIdx][colIdx] : " "
-      );
-    }
-
-    strs.push(marks.join("|") + "\n");
-  }
-
-  console.log(strs.join("-----\n"));
-};
-
-MiniBoard.prototype.winner = function () {
-  var posSeqs = [
-    // horizontals
-    [[0, 0], [0, 1], [0, 2]],
-    [[1, 0], [1, 1], [1, 2]],
-    [[2, 0], [2, 1], [2, 2]],
-    // verticals
-    [[0, 0], [1, 0], [2, 0]],
-    [[0, 1], [1, 1], [2, 1]],
-    [[0, 2], [1, 2], [2, 2]],
-    // diagonals
-    [[0, 0], [1, 1], [2, 2]],
-    [[2, 0], [1, 1], [0, 2]]
-  ];
-
-  for (var i = 0; i < posSeqs.length; i++) {
-    var winner = this.winnerHelper(posSeqs[i]);
-    if (winner !== null) {
-      return winner;
-    }
-  }
-
-  return null;
-};
-
-MiniBoard.prototype.loser = function () {
-  if (this.winner()) {
-    return this.winner() === 'o' ? 'x' : 'o';
-  }
-
-  return null;
-};
-
 MiniBoard.prototype.winnerHelper = function (posSeq) {
-  for (var markIdx = 0; markIdx < MiniBoard.marks.length; markIdx++) {
-    var targetMark = MiniBoard.marks[markIdx];
+  for (var markIdx = 0; markIdx < this.marks.length; markIdx++) {
+    var targetMark = this.marks[markIdx];
     var winner = true;
     for (var posIdx = 0; posIdx < 3; posIdx++) {
       var pos = posSeq[posIdx];
@@ -328,12 +269,51 @@ MiniBoard.prototype.winnerHelper = function (posSeq) {
 
 module.exports = MiniBoard;
 
-},{"./moveError":5}],5:[function(require,module,exports){
-function MoveError (msg) {
-  this.msg = msg;
+},{"./board":1}],7:[function(require,module,exports){
+var Util = require("./util");
+
+function Player(mark, game, oponent) {
+  this.mark = mark;
+  this.game = game;
+  this.oponent = oponent;
 }
 
-module.exports = MoveError;
+Player.prototype.makeMove = function (gridPos, pos, updateView) {
+  var moveMade = this.game.playMove(gridPos, pos, this.mark);
 
-},{}]},{},[3])(3)
+  if (moveMade) {
+    var squareId = Util.posToId(gridPos, pos);
+    updateView(squareId, this.game);
+    if (!this.game.winner()) {
+      this.game.swapTurn();
+      this.oponent.play(updateView);
+    }
+    return true;
+  } else {
+    return false;
+  }
+};
+
+Player.prototype.play = function () {};
+
+
+
+module.exports = Player;
+},{"./util":8}],8:[function(require,module,exports){
+var Util = {
+  posToId: function (gridPos, pos) {
+    var gridId = (gridPos[0] * 3 + gridPos[1]).toString();
+    var posId = (pos[0] * 3 + pos[1]).toString();
+    return ["mini", gridId, posId].join("-");
+  },
+  randomIdx: function (ceiling) {
+    return Math.floor(Math.random() * ceiling);
+  },
+  parsePosFromStr: function (posStr) {
+    return posStr.split(",").map(function (n) { return parseInt(n); });
+  }
+}
+
+module.exports = Util;
+},{}]},{},[4])(4)
 });
