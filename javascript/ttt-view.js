@@ -125,6 +125,8 @@
   }
 
   function resetView() {
+    $('.won-grid-o').removeClass('won-grid-o');
+    $('.won-grid-x').removeClass('won-grid-x');
     $('.mini-square')
       .removeClass('clicked')
       .addClass('hoverable')

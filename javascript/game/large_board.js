@@ -1,14 +1,14 @@
 var Board = require("./board");
 var MiniBoard = require("./mini_board");
 
-function LargeBoard () {
-  this.grid = Board.makeGrid(MiniBoard);
+function LargeBoard (marks) {
+  this.grid = Board.makeGrid(MiniBoard.bind(null, marks));
   this.validGrids = LargeBoard.allGrids;
+  this.marks = marks;
 }
 
 LargeBoard.prototype = Object.create(Board.prototype);
 
-LargeBoard.marks = ["x", "o"];
 LargeBoard.allGrids = ['0,0', '0,1', '0,2', '1,0', '1,1', '1,2', '2,0', '2,1', '2,2'];
 
 LargeBoard.prototype.isEmptyPos = function (pos) {
@@ -34,8 +34,8 @@ LargeBoard.prototype.setValidGrid = function (pos) {
 };
 
 LargeBoard.prototype.winnerHelper = function (posSeq) {
-  for (var markIdx = 0; markIdx < LargeBoard.marks.length; markIdx++) {
-    var targetMark = LargeBoard.marks[markIdx];
+  for (var markIdx = 0; markIdx < this.marks.length; markIdx++) {
+    var targetMark = this.marks[markIdx];
     var winner = true;
     for (var posIdx = 0; posIdx < 3; posIdx++) {
       var pos = posSeq[posIdx];

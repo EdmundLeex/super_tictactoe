@@ -76,7 +76,7 @@ var LargeBoard = require("./large_board");
 var Player = require("./player");
 
 function Game () {
-  this.board = new LargeBoard();
+  this.board = new LargeBoard(Game.marks);
   this.players = [new Player("x"), new Player("o")];
   this.currentPlayer = this.players[0].mark;
   this.nextPlayer = this.players[1].mark;
@@ -114,7 +114,7 @@ Game.prototype.winner = function () {
 };
 
 Game.prototype.reset = function () {
-  this.board = new LargeBoard();
+  this.board = new LargeBoard(Game.marks);
   this.currentPlayer = this.players[0].mark;
   this.nextPlayer = this.players[1].mark;
 }
@@ -130,14 +130,14 @@ module.exports = {
 var Board = require("./board");
 var MiniBoard = require("./mini_board");
 
-function LargeBoard () {
-  this.grid = Board.makeGrid(MiniBoard);
+function LargeBoard (marks) {
+  this.grid = Board.makeGrid(MiniBoard.bind(null, marks));
   this.validGrids = LargeBoard.allGrids;
+  this.marks = marks;
 }
 
 LargeBoard.prototype = Object.create(Board.prototype);
 
-LargeBoard.marks = ["x", "o"];
 LargeBoard.allGrids = ['0,0', '0,1', '0,2', '1,0', '1,1', '1,2', '2,0', '2,1', '2,2'];
 
 LargeBoard.prototype.isEmptyPos = function (pos) {
@@ -163,8 +163,8 @@ LargeBoard.prototype.setValidGrid = function (pos) {
 };
 
 LargeBoard.prototype.winnerHelper = function (posSeq) {
-  for (var markIdx = 0; markIdx < LargeBoard.marks.length; markIdx++) {
-    var targetMark = LargeBoard.marks[markIdx];
+  for (var markIdx = 0; markIdx < this.marks.length; markIdx++) {
+    var targetMark = this.marks[markIdx];
     var winner = true;
     for (var posIdx = 0; posIdx < 3; posIdx++) {
       var pos = posSeq[posIdx];
@@ -194,8 +194,6 @@ function MiniBoard (marks) {
 
 MiniBoard.prototype = Object.create(Board.prototype);
 
-MiniBoard.marks = ["x", "o"];
-
 MiniBoard.prototype.isEmptyPos = function (pos) {
   return (this.grid[pos[0]][pos[1]] === null);
 };
@@ -204,17 +202,9 @@ MiniBoard.prototype.placeMark = function (pos, mark) {
   this.grid[pos[0]][pos[1]] = mark;
 };
 
-MiniBoard.prototype.loser = function () {
-  if (this.winner()) {
-    return this.winner() === 'o' ? 'x' : 'o';
-  }
-
-  return null;
-};
-
 MiniBoard.prototype.winnerHelper = function (posSeq) {
-  for (var markIdx = 0; markIdx < MiniBoard.marks.length; markIdx++) {
-    var targetMark = MiniBoard.marks[markIdx];
+  for (var markIdx = 0; markIdx < this.marks.length; markIdx++) {
+    var targetMark = this.marks[markIdx];
     var winner = true;
     for (var posIdx = 0; posIdx < 3; posIdx++) {
       var pos = posSeq[posIdx];

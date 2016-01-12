@@ -2,7 +2,7 @@ var LargeBoard = require("./large_board");
 var Player = require("./player");
 
 function Game () {
-  this.board = new LargeBoard();
+  this.board = new LargeBoard(Game.marks);
   this.players = [new Player("x"), new Player("o")];
   this.currentPlayer = this.players[0].mark;
   this.nextPlayer = this.players[1].mark;
@@ -40,7 +40,7 @@ Game.prototype.winner = function () {
 };
 
 Game.prototype.reset = function () {
-  this.board = new LargeBoard();
+  this.board = new LargeBoard(Game.marks);
   this.currentPlayer = this.players[0].mark;
   this.nextPlayer = this.players[1].mark;
 }

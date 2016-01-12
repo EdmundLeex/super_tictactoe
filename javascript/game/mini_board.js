@@ -7,8 +7,6 @@ function MiniBoard (marks) {
 
 MiniBoard.prototype = Object.create(Board.prototype);
 
-MiniBoard.marks = ["x", "o"];
-
 MiniBoard.prototype.isEmptyPos = function (pos) {
   return (this.grid[pos[0]][pos[1]] === null);
 };
@@ -17,17 +15,9 @@ MiniBoard.prototype.placeMark = function (pos, mark) {
   this.grid[pos[0]][pos[1]] = mark;
 };
 
-MiniBoard.prototype.loser = function () {
-  if (this.winner()) {
-    return this.winner() === 'o' ? 'x' : 'o';
-  }
-
-  return null;
-};
-
 MiniBoard.prototype.winnerHelper = function (posSeq) {
-  for (var markIdx = 0; markIdx < MiniBoard.marks.length; markIdx++) {
-    var targetMark = MiniBoard.marks[markIdx];
+  for (var markIdx = 0; markIdx < this.marks.length; markIdx++) {
+    var targetMark = this.marks[markIdx];
     var winner = true;
     for (var posIdx = 0; posIdx < 3; posIdx++) {
       var pos = posSeq[posIdx];
