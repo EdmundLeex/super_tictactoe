@@ -107,7 +107,6 @@ var Player = require("./player");
 function Game (players) {
   this.board = new LargeBoard(Game.marks);
   this.players = players;
-  // this.players = [new Player("x", this, ), new Player("o", this)];
   this.players.forEach(function(player){
     player.game = this;
   }, this);

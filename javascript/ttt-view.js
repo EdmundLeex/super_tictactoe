@@ -14,11 +14,7 @@
 
   View.prototype.bindEvents = function () {
     var that = this;
-    $('#board').on('click', function (e) {
-      var elId = e.target.id;
-      makeMove(elId, that.game);
-    });
-    $('#restart').on('click', function (e) {
+    $('#reset').on('click', function (e) {
       e.preventDefault();
       reset(that.game);
     });
@@ -26,6 +22,7 @@
 
   function reset(game) {
     game.reset();
+    bindClick(game);
     resetView();
   }
 
@@ -40,7 +37,6 @@
 
     if (game.currentPlayer.makeMove(gridPos, pos, updateView)) {
       $('#next-move').html(game.nextPlayer.mark);
-      // updateView($square, game);
     } else {
       showMessage("Invalid move");
     }
@@ -119,7 +115,7 @@
   function setupMiniBoard(id) {
     var toInsert = "";
     for (var i = 0; i < 9; i++) {
-      toInsert = toInsert + "<li class='mini-square playable grid hoverable' id=mini-" + id + "-" + i + "></li>";
+      toInsert = toInsert + "<li class='mini-square grid hoverable' id=mini-" + id + "-" + i + "></li>";
     }
 
     return '<ul class="mini-grid">' + toInsert + '</ul>';
@@ -134,5 +130,12 @@
       .addClass('playable')
       .children()
       .empty();
+  }
+
+  function bindClick(game) {
+    $('#board').on('click', function (e) {
+      var elId = e.target.id;
+      makeMove(elId, game);
+    });
   }
 })();
