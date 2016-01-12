@@ -16,6 +16,7 @@
     var that = this;
     $('#reset').on('click', function (e) {
       e.preventDefault();
+      e.target.textContent = "RESTART";
       reset(that.game);
     });
   };
