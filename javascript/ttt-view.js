@@ -38,7 +38,7 @@
     var pos = [Math.floor(id / 3), (id % 3)];
 
     if (game.playMove(gridPos, pos)) {
-      $('#next-move').html(game.nextPlayer);
+      $('#next-move').html(game.nextPlayer.mark);
       clearMessage();
       updateView($square, game);
     } else {
@@ -48,7 +48,7 @@
   }
 
   function updateView($square, game) {
-    var mark = game.currentPlayer;
+    var mark = game.currentPlayer.mark;
 
     $square.html("<span class='mark " + mark + "'>" + mark + "</span>");
     $square.addClass("clicked").remove('playable');
@@ -80,7 +80,7 @@
   }
 
   function showEndGameView(game) {
-    var mark = game.currentPlayer;
+    var mark = game.currentPlayer.mark;
 
     if (game.isOver()) {
       if (game.winner()) {
@@ -112,7 +112,7 @@
     }
     $elem.html(toInsert);
 
-    $('#next-move').html(game.nextPlayer);
+    $('#next-move').html(game.nextPlayer.mark);
   }
 
   function setupMiniBoard(id) {
