@@ -78,8 +78,8 @@ var Player = require("./player");
 function Game () {
   this.board = new LargeBoard();
   this.players = [new Player("x"), new Player("o")];
-  this.currentPlayer = Game.marks[0];
-  this.nextPlayer = Game.marks[1];
+  this.currentPlayer = this.players[0].mark;
+  this.nextPlayer = this.players[1].mark;
 }
 
 Game.marks = ["x", "o"];
@@ -91,7 +91,7 @@ Game.prototype.isOver = function () {
 Game.prototype.playMove = function (gridPos, pos) {
   var placedMark = this.board.placeMark(gridPos, pos, this.currentPlayer);
   if (placedMark) {
-    this.swapTurn();
+    // this.swapTurn();
     return true;
   } else {
     return false;
@@ -99,12 +99,13 @@ Game.prototype.playMove = function (gridPos, pos) {
 };
 
 Game.prototype.swapTurn = function () {
-  if (this.currentPlayer === Game.marks[0]) {
-    this.currentPlayer = Game.marks[1];
-    this.nextPlayer = Game.marks[0];
+  var players = this.players;
+  if (this.currentPlayer === players[0].mark) {
+    this.currentPlayer = players[1].mark;
+    this.nextPlayer = players[0].mark;
   } else {
-    this.currentPlayer = Game.marks[0];
-    this.nextPlayer = Game.marks[1];
+    this.currentPlayer = players[0].mark;
+    this.nextPlayer = players[1].mark;
   }
 };
 
@@ -114,8 +115,8 @@ Game.prototype.winner = function () {
 
 Game.prototype.reset = function () {
   this.board = new LargeBoard();
-  this.currentPlayer = Game.marks[0];
-  this.nextPlayer = Game.marks[1];
+  this.currentPlayer = this.players[0].mark;
+  this.nextPlayer = this.players[1].mark;
 }
 
 module.exports = Game;
@@ -186,8 +187,9 @@ module.exports = LargeBoard;
 },{"./board":1,"./mini_board":5}],5:[function(require,module,exports){
 var Board = require("./board");
 
-function MiniBoard () {
+function MiniBoard (marks) {
   this.grid = Board.makeGrid(null);
+  this.marks = marks;
 }
 
 MiniBoard.prototype = Object.create(Board.prototype);
@@ -235,7 +237,7 @@ module.exports = MiniBoard;
 
 },{"./board":1}],6:[function(require,module,exports){
 function Player (mark) {
-  this.mark = "";
+  this.mark = mark;
 }
 
 module.exports = Player;

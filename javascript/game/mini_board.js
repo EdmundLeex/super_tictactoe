@@ -1,7 +1,8 @@
 var Board = require("./board");
 
-function MiniBoard () {
+function MiniBoard (marks) {
   this.grid = Board.makeGrid(null);
+  this.marks = marks;
 }
 
 MiniBoard.prototype = Object.create(Board.prototype);

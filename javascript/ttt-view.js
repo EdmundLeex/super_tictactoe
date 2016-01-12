@@ -44,6 +44,7 @@
     } else {
       showMessage("Invalid move");
     }
+    game.swapTurn();
   }
 
   function updateView($square, game) {
@@ -65,7 +66,7 @@
       if (miniBoard.isOver()) {
         var id = gridPos[0] * 3 + gridPos[1] * 3 - (gridPos[1] * 3 - gridPos[1]);
         var wonGrid = $('#' + id.toString());
-        wonGrid.addClass('won-grid-' + miniBoard.loser());
+        wonGrid.addClass('won-grid-' + miniBoard.winner());
       }
 
       if (game.board.validGrids.indexOf(gridPos[0] + ',' + gridPos[1]) === -1) {
