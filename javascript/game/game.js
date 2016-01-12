@@ -3,7 +3,7 @@ var Player = require("./player");
 
 function Game () {
   this.board = new LargeBoard(Game.marks);
-  this.players = [new Player("x"), new Player("o")];
+  this.players = [new Player("x", this), new Player("o", this)];
   this.currentPlayer = this.players[0];
   this.nextPlayer = this.players[1];
 }
@@ -14,8 +14,8 @@ Game.prototype.isOver = function () {
   return this.board.isOver();
 };
 
-Game.prototype.playMove = function (gridPos, pos) {
-  var mark = this.currentPlayer.mark;
+Game.prototype.playMove = function (gridPos, pos, mark) {
+  // var mark = this.currentPlayer.mark;
   var placedMark = this.board.placeMark(gridPos, pos, mark);
   if (placedMark) {
     return true;

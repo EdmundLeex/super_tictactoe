@@ -37,7 +37,8 @@
     var gridPos = [Math.floor(gridId / 3), (gridId % 3)];
     var pos = [Math.floor(id / 3), (id % 3)];
 
-    if (game.playMove(gridPos, pos)) {
+    // if (game.playMove(gridPos, pos)) {
+    if (game.currentPlayer.makeMove(gridPos, pos)) {
       $('#next-move').html(game.nextPlayer.mark);
       clearMessage();
       updateView($square, game);
