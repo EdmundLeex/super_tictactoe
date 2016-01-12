@@ -1,14 +1,9 @@
 var LargeBoard = require("./large_board");
 var Player = require("./player");
 
-function Game (players) {
+function Game () {
   this.board = new LargeBoard(Game.marks);
-  this.players = players;
-  this.players.forEach(function(player){
-    player.game = this;
-  }, this);
-  this.currentPlayer = this.players[0];
-  this.nextPlayer = this.players[1];
+  this.players = null;
 }
 
 Game.marks = ["x", "o"];
@@ -46,5 +41,14 @@ Game.prototype.reset = function () {
   this.currentPlayer = this.players[0];
   this.nextPlayer = this.players[1];
 };
+
+Game.prototype.addPlayers = function (players) {
+  this.players = players;
+  this.players.forEach(function(player){
+    player.game = this;
+  }, this);
+  this.currentPlayer = this.players[0];
+  this.nextPlayer = this.players[1];
+}
 
 module.exports = Game;

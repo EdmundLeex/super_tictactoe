@@ -22,6 +22,19 @@
   };
 
   function reset(game) {
+    var vsAI = $('#ai-toggle').is(':checked');
+    var player1 = new window.TTT.Player('x');
+    var player2;
+
+    if (vsAI) {
+      player2 = new window.TTT.ComputerPlayer('o');
+    } else {
+      player2 = new window.TTT.Player('o');
+    }
+    player1.oponent = player2;
+    player2.oponent = player1;
+    // var game = new window.TTT.Game([player1, player2]);
+    game.addPlayers([player1, player2]);
     game.reset();
     bindClick(game);
     resetView();
@@ -110,7 +123,7 @@
     }
     $elem.html(toInsert);
 
-    $('#next-move').html(game.nextPlayer.mark);
+    // $('#next-move').html(game.nextPlayer.mark);
   }
 
   function setupMiniBoard(id) {
