@@ -1,9 +1,13 @@
 var LargeBoard = require("./large_board");
 var Player = require("./player");
 
-function Game () {
+function Game (players) {
   this.board = new LargeBoard(Game.marks);
-  this.players = [new Player("x", this), new Player("o", this)];
+  this.players = players;
+  // this.players = [new Player("x", this, ), new Player("o", this)];
+  this.players.forEach(function(player){
+    player.game = this;
+  }, this);
   this.currentPlayer = this.players[0];
   this.nextPlayer = this.players[1];
 }

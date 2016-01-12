@@ -75,9 +75,13 @@ module.exports = Board;
 var LargeBoard = require("./large_board");
 var Player = require("./player");
 
-function Game () {
+function Game (players) {
   this.board = new LargeBoard(Game.marks);
-  this.players = [new Player("x", this), new Player("o", this)];
+  this.players = players;
+  // this.players = [new Player("x", this, ), new Player("o", this)];
+  this.players.forEach(function(player){
+    player.game = this;
+  }, this);
   this.currentPlayer = this.players[0];
   this.nextPlayer = this.players[1];
 }
@@ -89,7 +93,6 @@ Game.prototype.isOver = function () {
 };
 
 Game.prototype.playMove = function (gridPos, pos, mark) {
-  // var mark = this.currentPlayer.mark;
   var placedMark = this.board.placeMark(gridPos, pos, mark);
   if (placedMark) {
     return true;
@@ -123,10 +126,11 @@ module.exports = Game;
 
 },{"./large_board":4,"./player":6}],3:[function(require,module,exports){
 module.exports = {
+  Player: require("./player"),
   Game: require("./game")
 };
 
-},{"./game":2}],4:[function(require,module,exports){
+},{"./game":2,"./player":6}],4:[function(require,module,exports){
 var Board = require("./board");
 var MiniBoard = require("./mini_board");
 
@@ -226,14 +230,26 @@ MiniBoard.prototype.winnerHelper = function (posSeq) {
 module.exports = MiniBoard;
 
 },{"./board":1}],6:[function(require,module,exports){
-function Player (mark, game) {
+function Player(mark, game, oponent) {
   this.mark = mark;
   this.game = game;
+  this.oponent = oponent;
 }
 
 Player.prototype.makeMove = function (gridPos, pos) {
   this.game.playMove(gridPos, pos, this.mark);
   return true;
+}
+
+// Computer Player
+function ComputerPlayer(mark, game) {
+  Player.call(mark, game);
+}
+
+ComputerPlayer.prototype = Object.create(Player.prototype);
+
+ComputerPlayer.prototype.makeMove = function (arguments) {
+  // body...
 }
 
 module.exports = Player;
