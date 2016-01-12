@@ -15,7 +15,6 @@ Game.prototype.isOver = function () {
 };
 
 Game.prototype.playMove = function (gridPos, pos, mark) {
-  // var mark = this.currentPlayer.mark;
   var placedMark = this.board.placeMark(gridPos, pos, mark);
   if (placedMark) {
     return true;
