@@ -16,13 +16,16 @@ LargeBoard.prototype.isEmptyPos = function (pos) {
 };
 
 LargeBoard.prototype.placeMark = function (gridPos, pos, mark) {
-  if (this.validGrids.indexOf(gridPos.toString()) !== -1) {
-    this.grid[gridPos[0]][gridPos[1]].placeMark(pos, mark);
-    this.setValidGrid(pos);
-    return true;
-  } else {
-    return false;
+  var isValidGrid = this.validGrids.indexOf(gridPos.toString()) !== -1;
+
+  if (isValidGrid) {
+    var isValidPos = this.grid[gridPos[0]][gridPos[1]].placeMark(pos, mark);
+    if (isValidPos) {
+      this.setValidGrid(pos);
+      return true;
+    }
   }
+  return false;
 };
 
 LargeBoard.prototype.setValidGrid = function (pos) {

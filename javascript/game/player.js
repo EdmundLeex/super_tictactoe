@@ -7,14 +7,19 @@ function Player(mark, game, oponent) {
 }
 
 Player.prototype.makeMove = function (gridPos, pos, updateView) {
-  this.game.playMove(gridPos, pos, this.mark);
+  var moveMade = this.game.playMove(gridPos, pos, this.mark);
 
-  var squareId = Util.posToId(gridPos, pos);
-  updateView(squareId, this.game);
-  this.game.swapTurn();
-  this.oponent.play(updateView);
-
-  return true;
+  if (moveMade) {
+    var squareId = Util.posToId(gridPos, pos);
+    updateView(squareId, this.game);
+    if (!this.game.winner()) {
+      this.game.swapTurn();
+      this.oponent.play(updateView);
+    }
+    return true;
+  } else {
+    return false;
+  }
 };
 
 Player.prototype.play = function () {};

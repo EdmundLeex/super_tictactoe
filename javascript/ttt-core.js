@@ -92,7 +92,10 @@ ComputerPlayer.prototype.play = function (updateView) {
   randIdx = Util.randomIdx(validPosArr.length);
   var pos = Util.parsePosFromStr(validPosArr[randIdx]);
 
-  setTimeout(this.makeMove.bind(this, gridPos, pos, updateView), 500);
+  setTimeout(
+    this.makeMove.bind(this, gridPos, pos, updateView),
+    1000
+  );
 };
 
 module.exports = ComputerPlayer;
@@ -176,13 +179,16 @@ LargeBoard.prototype.isEmptyPos = function (pos) {
 };
 
 LargeBoard.prototype.placeMark = function (gridPos, pos, mark) {
-  if (this.validGrids.indexOf(gridPos.toString()) !== -1) {
-    this.grid[gridPos[0]][gridPos[1]].placeMark(pos, mark);
-    this.setValidGrid(pos);
-    return true;
-  } else {
-    return false;
+  var isValidGrid = this.validGrids.indexOf(gridPos.toString()) !== -1;
+
+  if (isValidGrid) {
+    var isValidPos = this.grid[gridPos[0]][gridPos[1]].placeMark(pos, mark);
+    if (isValidPos) {
+      this.setValidGrid(pos);
+      return true;
+    }
   }
+  return false;
 };
 
 LargeBoard.prototype.setValidGrid = function (pos) {
@@ -233,6 +239,8 @@ MiniBoard.prototype.isEmptyPos = function (pos) {
 MiniBoard.prototype.placeMark = function (pos, mark) {
   if (!this.isEmptyPos(pos)) return false;
   this.grid[pos[0]][pos[1]] = mark;
+
+  return true;
 };
 
 MiniBoard.prototype.winnerHelper = function (posSeq) {
@@ -268,14 +276,19 @@ function Player(mark, game, oponent) {
 }
 
 Player.prototype.makeMove = function (gridPos, pos, updateView) {
-  this.game.playMove(gridPos, pos, this.mark);
+  var moveMade = this.game.playMove(gridPos, pos, this.mark);
 
-  var squareId = Util.posToId(gridPos, pos);
-  updateView(squareId, this.game);
-  this.game.swapTurn();
-  this.oponent.play(updateView);
-
-  return true;
+  if (moveMade) {
+    var squareId = Util.posToId(gridPos, pos);
+    updateView(squareId, this.game);
+    if (!this.game.winner()) {
+      this.game.swapTurn();
+      this.oponent.play(updateView);
+    }
+    return true;
+  } else {
+    return false;
+  }
 };
 
 Player.prototype.play = function () {};

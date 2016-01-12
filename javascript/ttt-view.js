@@ -40,7 +40,6 @@
 
     if (game.currentPlayer.makeMove(gridPos, pos, updateView)) {
       $('#next-move').html(game.nextPlayer.mark);
-      clearMessage();
       // updateView($square, game);
     } else {
       showMessage("Invalid move");
@@ -55,6 +54,7 @@
     $square.addClass("clicked").remove('playable');
     $square.removeClass("hoverable");
 
+    clearMessage();
     updateGridsClasses(game);
     showEndGameView(game);
   }

@@ -15,6 +15,8 @@ MiniBoard.prototype.isEmptyPos = function (pos) {
 MiniBoard.prototype.placeMark = function (pos, mark) {
   if (!this.isEmptyPos(pos)) return false;
   this.grid[pos[0]][pos[1]] = mark;
+
+  return true;
 };
 
 MiniBoard.prototype.winnerHelper = function (posSeq) {
