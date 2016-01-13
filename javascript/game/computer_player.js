@@ -9,6 +9,7 @@ function ComputerPlayer(mark, game) {
 ComputerPlayer.prototype = Object.create(Player.prototype);
 
 ComputerPlayer.prototype.play = function (updateView) {
+  debugger
   var validPosArr = this.game.board.validGrids;
   var randIdx = Util.randomIdx(validPosArr.length);
   var gridPos = Util.parsePosFromStr(validPosArr[randIdx]);

@@ -15,6 +15,9 @@ MiniBoard.prototype.isEmptyPos = function (pos) {
 MiniBoard.prototype.placeMark = function (pos, mark) {
   if (!this.isEmptyPos(pos)) return false;
   this.grid[pos[0]][pos[1]] = mark;
+  this.validGrids = this.validGrids.filter(function (posStr) {
+    return posStr !== pos.join(',');
+  });
 
   return true;
 };
