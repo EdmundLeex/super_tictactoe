@@ -33,7 +33,7 @@ Game.prototype.swapTurn = function () {
 };
 
 Game.prototype.winner = function () {
-  return this.board.winner();
+  return this.board.winner;
 };
 
 Game.prototype.reset = function () {
