@@ -63,9 +63,11 @@ Board.prototype.getWinner = function () {
   ];
 
   for (var i = 0; i < posSeqs.length; i++) {
-    this.winner = this.winnerHelper(posSeqs[i]);
-    if (this.winner !== null) {
-      return this.winner;
+    if (!this.winner) {
+      this.winner = this.winnerHelper(posSeqs[i]);
+      if (this.winner !== null) {
+        return this.winner;
+      }
     }
   }
 
