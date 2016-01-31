@@ -10,6 +10,7 @@
 
   View.prototype.initBoard = function () {
     setupBoard(this.$el, this.game);
+    bindClick(this.game);
   };
 
   View.prototype.bindEvents = function () {
@@ -37,7 +38,6 @@
     // var game = new window.TTT.Game([player1, player2]);
     game.addPlayers([player1, player2]);
     game.reset();
-    bindClick(game);
     resetView();
   }
 
