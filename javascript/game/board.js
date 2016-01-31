@@ -1,5 +1,6 @@
 function Board () {
   this.grid = Board.makeGrid();
+  this.winner = null;
 }
 
 Board.allGrids = ['0,0', '0,1', '0,2', '1,0', '1,1', '1,2', '2,0', '2,1', '2,2'];
@@ -39,14 +40,14 @@ Board.prototype.isFull = function () {
 };
 
 Board.prototype.isOver = function () {
-  if (this.winner() !== null) {
+  if (this.getWinner() !== null) {
     return true;
   }
 
   return this.isFull();
 };
 
-Board.prototype.winner = function () {
+Board.prototype.getWinner = function () {
   var posSeqs = [
     // horizontals
     [[0, 0], [0, 1], [0, 2]],
@@ -62,9 +63,9 @@ Board.prototype.winner = function () {
   ];
 
   for (var i = 0; i < posSeqs.length; i++) {
-    var winner = this.winnerHelper(posSeqs[i]);
-    if (winner !== null) {
-      return winner;
+    this.winner = this.winnerHelper(posSeqs[i]);
+    if (this.winner !== null) {
+      return this.winner;
     }
   }
 

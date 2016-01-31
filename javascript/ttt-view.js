@@ -18,6 +18,7 @@
       e.preventDefault();
       e.target.textContent = "RESTART";
       reset(that.game);
+      $('#next-move').html(that.game.currentPlayer.mark);
     });
   };
 
@@ -50,7 +51,7 @@
     var pos = [Math.floor(id / 3), (id % 3)];
 
     if (game.currentPlayer.makeMove(gridPos, pos, updateView)) {
-      $('#next-move').html(game.nextPlayer.mark);
+      $('#next-move').html(game.currentPlayer.mark);
     } else {
       showMessage("Invalid move");
     }
@@ -77,7 +78,7 @@
       if (miniBoard.isOver()) {
         var id = gridPos[0] * 3 + gridPos[1] * 3 - (gridPos[1] * 3 - gridPos[1]);
         var wonGrid = $('#' + id.toString());
-        wonGrid.addClass('won-grid-' + miniBoard.winner());
+        wonGrid.addClass('won-grid-' + miniBoard.winner);
       }
 
       if (game.board.validGrids.indexOf(gridPos[0] + ',' + gridPos[1]) === -1) {
